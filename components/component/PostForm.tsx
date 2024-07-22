@@ -1,53 +1,34 @@
+"use client"  
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendIcon } from "./Icons";
-import prisma from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
-import { z } from "zod";
+import { useRef, useState } from "react";
+import { addPostAction } from "@/lib/actions";
 
 
 export default function PostForm() {
-  async function addPostAction(formData: FormData) {
-    "use server";
-    try {
-      const {userId} = auth()
-      const postText = formData.get("post") as string;
-      const postTextSchema = z
-      .string()
-      .min(1,"1文字以上で投稿位sてください")
-      .max(140, "140字以内で投稿してください")
-      
-      if (!userId) {
-        console.error("User not authenticated")
-        return;
-      }
-      const validatedPostText = postTextSchema.parse(postText)
-    
-      await prisma.post.create({
-        data: { 
-          content: validatedPostText,
-          authorId: userId,
-          
-        },
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        } else if (error instanceof Error) {
-          console.error(error instanceof Error);
-        } else {
-          return {
-            error:"予期せぬエラーが起きました。",
-            success:false,
-          }}
-  }}
+const [error,setError] = useState<string | undefined>("");
+const formRef = useRef<HTMLFormElement>(null);
+
+const handleSubmit = async (formData: FormData) => {
+  const result = await addPostAction(formData);
+  if (result?.error) {
+    setError(result.error);
+  } else {
+    setError(undefined);
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+  }
+};
   return (
     <div className="flex items-center gap-4">
       <Avatar className="w-10 h-10">
         <AvatarImage src="/placeholder-user.jpg" />
         <AvatarFallback>AC</AvatarFallback>
       </Avatar>
-      <form action={addPostAction} className="flex items-center flex-1">
+      <form  ref={formRef} action={handleSubmit} className="flex items-center flex-1">
         <Input
           type="text"
           placeholder="What's on your mind?"
@@ -59,6 +40,7 @@ export default function PostForm() {
           <span className="sr-only">Tweet</span>
         </Button>
       </form>
+      {error && <p className="text-red-500 mt-1 ml014">{error}</p>}
     </div>
   );
 }
