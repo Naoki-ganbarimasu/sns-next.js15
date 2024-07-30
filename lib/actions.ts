@@ -31,6 +31,10 @@ export async function addPostAction(formData: FormData) {
           }
     } catch (error) {
       if (error instanceof z.ZodError) {
+        return  {
+          error:error.errors.map((error) => error.message).join(", "),
+          success:false,
+        }
         } else if (error instanceof Error) {
           console.error(error instanceof Error);
         } else {
