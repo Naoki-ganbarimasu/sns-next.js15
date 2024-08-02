@@ -3,7 +3,12 @@ import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
 import prisma from "./prisma";
 
-export async function addPostAction(formData: FormData) {
+type State = {
+  error?: string;
+  success: boolean;
+};
+
+export async function addPostAction(prevState :State, formData: FormData): Promise<State> {
     try {
       const {userId} = auth()
       const postText = formData.get("post") as string;
@@ -13,10 +18,11 @@ export async function addPostAction(formData: FormData) {
       .max(140, "140字以内で投稿してください")
       
       if (!userId) {
-        console.error("User not authenticated")
-        return;
+        return {error:"ログインしてください",success:false};
       }
       const validatedPostText = postTextSchema.parse(postText)
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     
       await prisma.post.create({
         data: { 
@@ -36,7 +42,11 @@ export async function addPostAction(formData: FormData) {
           success:false,
         }
         } else if (error instanceof Error) {
-          console.error(error instanceof Error);
+          console.error(error.message);
+          return {
+            error:error.message,
+            success:false,
+          }
         } else {
           return {
             error:"予期せぬエラーが起きました。",
