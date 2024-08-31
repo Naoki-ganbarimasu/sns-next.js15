@@ -45,14 +45,18 @@ if (state.success && formRef.current) {
         <AvatarImage src="/placeholder-user.jpg" />
         <AvatarFallback>AC</AvatarFallback>
       </Avatar>
-      <form  ref={formRef} action={formAction} className="flex items-center flex-1">
+      <form
+        ref={formRef}
+        action={formAction}
+        className="flex items-center flex-1"
+      >
         <Input
           type="text"
           placeholder="What's on your mind?"
           className="flex-1 rounded-full bg-muted px-4 py-2"
           name="post"
         />
-       <SubmitButton/>
+        <SubmitButton />
       </form>
       {state?.error && <p className="text-red-500 mt-1 ml014">{state.error}</p>}
     </div>
