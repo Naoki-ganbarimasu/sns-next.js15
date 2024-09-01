@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 export function Component() {
   return (
@@ -209,7 +209,7 @@ export function Component() {
               </div>
               <div className="space-y-2">
                 <p>
-                  Enjoying the beautiful weather today! Who's up for a hike
+                  Enjoying the beautiful weather today! Whos up for a hike
                   later?
                 </p>
               </div>
@@ -284,8 +284,19 @@ export function Component() {
     </div>
   );
 }
+type Props = {
+  xmlns: string;
+  width: string;
+  height: string;
+  viewBox: string;
+  fill: string;
+  stroke: string;
+  strokeWidth: string;
+  strokeLinecap: string;
+  strokeLinejoin: string;
+};
 
-function BellIcon(props) {
+function BellIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -305,7 +316,7 @@ function BellIcon(props) {
   );
 }
 
-function BookmarkIcon(props) {
+function BookmarkIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -324,7 +335,7 @@ function BookmarkIcon(props) {
   );
 }
 
-function ClockIcon(props) {
+function ClockIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -344,7 +355,7 @@ function ClockIcon(props) {
   );
 }
 
-function CompassIcon(props) {
+function CompassIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -364,7 +375,7 @@ function CompassIcon(props) {
   );
 }
 
-function HeartIcon(props) {
+function HeartIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -383,7 +394,7 @@ function HeartIcon(props) {
   );
 }
 
-function HomeIcon(props) {
+function HomeIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -403,7 +414,7 @@ function HomeIcon(props) {
   );
 }
 
-function LogInIcon(props) {
+function LogInIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -424,7 +435,7 @@ function LogInIcon(props) {
   );
 }
 
-function MailIcon(props) {
+function MailIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -444,7 +455,7 @@ function MailIcon(props) {
   );
 }
 
-function MessageCircleIcon(props) {
+function MessageCircleIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -463,7 +474,7 @@ function MessageCircleIcon(props) {
   );
 }
 
-function SearchIcon(props) {
+function SearchIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -483,7 +494,7 @@ function SearchIcon(props) {
   );
 }
 
-function SendIcon(props) {
+function SendIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -503,7 +514,7 @@ function SendIcon(props) {
   );
 }
 
-function SettingsIcon(props) {
+function SettingsIcon({ props }: any) {
   return (
     <svg
       {...props}
@@ -523,7 +534,7 @@ function SettingsIcon(props) {
   );
 }
 
-function Share2Icon(props) {
+function Share2Icon({ props }: any) {
   return (
     <svg
       {...props}
@@ -546,7 +557,7 @@ function Share2Icon(props) {
   );
 }
 
-function UserIcon(props) {
+function UserIcon({ props }: any) {
   return (
     <svg
       {...props}

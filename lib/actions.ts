@@ -62,3 +62,41 @@ export async function addPostAction(
     }
   }
 }
+
+ export async function likeAction (postId : string) {
+   const {userId} = auth();
+   if (!userId) {
+     throw new Error("ログインしてください");
+   }
+
+   try {
+     const existingLike = await prisma.like.findFirst({
+       where: {
+         postId,
+         userId
+       }
+     });
+
+     console.log(existingLike);
+     if (existingLike) {
+       await prisma.like.delete({
+         where: {
+           id: existingLike.id
+         }
+       });
+
+       revalidatePath("/");
+     } else {
+       await prisma.like.create({
+         data: {
+           postId,
+           userId
+         }
+       });
+     }
+     revalidatePath("/");
+   } catch (error) {
+     console.error(error);
+     throw new Error("サーバーエラーが発生しました。再試行してください。");
+   }
+ };

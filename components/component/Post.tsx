@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { ClockIcon, HeartIcon } from "./Icons";
 import PostInteraction from "./PostInteraction";
 
@@ -10,13 +11,15 @@ const Post = ({ post }: any) => {
       className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4"
     >
       <div className="flex items-center gap-4 mb-4">
-        <Avatar className="w-10 h-10">
-          <AvatarImage src="/placeholder-user.jpg" />
-          <AvatarFallback>AC</AvatarFallback>
-        </Avatar>
+        <Link href={`/profile/${post.author.name}`}>
+          <Avatar className="w-10 h-10 rounded-full">
+            <AvatarImage src={post.author.image} />
+            <AvatarFallback>AC</AvatarFallback>
+          </Avatar>
+        </Link>
         <div>
           <h3 className="text-lg font-bold">{post.author.name}</h3>
-          <p className="text-muted-foreground">{post.author.username}</p>
+          <p className="text-muted-foreground">@{post.author.username}</p>
         </div>
       </div>
       <div className="space-y-2">
@@ -39,8 +42,8 @@ const Post = ({ post }: any) => {
         <div className="mt-4 border-t pt-4 space-y-2">
           {post.comments.map(({ comment, index }: any) => (
             <div key={index} className="flex items-center gap-4">
-              <Avatar className="w-8 h-8">
-                <AvatarImage src="/placeholder-user.jpg" />
+              <Avatar className="w-8 h-8 rounded-full">
+                <AvatarImage src={post.author.image} />
                 <AvatarFallback>AC</AvatarFallback>
               </Avatar>
               <div className="flex-1">

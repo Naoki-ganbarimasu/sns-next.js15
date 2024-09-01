@@ -10,6 +10,8 @@ import {
   HeartIcon,
   SettingsIcon,
 } from "./Icons";
+import { useUser } from "@clerk/nextjs";
+import { auth, User } from "@clerk/nextjs/server";
 
 const navItems = [
   { icon: HomeIcon, label: "Home", href: "/" },
@@ -20,12 +22,18 @@ const navItems = [
   { icon: HeartIcon, label: "Likes", href: "/likes" },
 ];
 
-export default function LeftSidebar() {
+export default function LeftSidebar({ username }: { username: string }) {
+  const { userId } = auth();
+  console.log(userId);
+    if (!userId) {
+      return;
+    }
+    // const user = await fetchPosts(userId);
   return (
     <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-md p-4 h-full flex flex-col">
       <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
         <Avatar className="w-12 h-12">
-          <AvatarImage src="/placeholder-user.jpg" />
+          <AvatarImage/>
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>
         <div>
