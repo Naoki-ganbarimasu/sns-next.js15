@@ -12,6 +12,9 @@ import {
 } from "./Icons";
 import { useUser } from "@clerk/nextjs";
 import { auth, User } from "@clerk/nextjs/server";
+import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 
 const navItems = [
   { icon: HomeIcon, label: "Home", href: "/" },
@@ -22,23 +25,47 @@ const navItems = [
   { icon: HeartIcon, label: "Likes", href: "/likes" },
 ];
 
-export default function LeftSidebar({ username }: { username: string }) {
+export default async function LeftSidebar({ username }: { username: string }) {
   const { userId } = auth();
   console.log(userId);
     if (!userId) {
       return;
+  }
+  
+  const user = await prisma.user.findMany({
+    where: {
+      name: username
+    },
+    select: {
+      name: true,
+      image: true,
+      _count: {
+        select: {
+          followedBy: true,
+          following: true,
+          posts: true
+        }
+      }
     }
+  });
+
+  if (!user) {
+    return;
+  }
     // const user = await fetchPosts(userId);
   return (
     <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-md p-4 h-full flex flex-col">
       <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
         <Avatar className="w-12 h-12">
-          <AvatarImage/>
-          <AvatarFallback>JD</AvatarFallback>
+          <AvatarImage
+            src={user.image || "/placeholder-user.jpg"}
+            alt="Acme Inc Profile"
+          />
+          <AvatarFallback>You</AvatarFallback>
         </Avatar>
         <div>
           <h3 className="text-lg font-bold">John Doe</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">@johndoe</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">@{user.username}</p>
         </div>
       </div>
       <nav className="flex-grow">

@@ -1,7 +1,9 @@
+import FollowButton from "@/components/component/FollowButton";
 import PostList from "@/components/component/PostList";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 
 export default async function ProfilePage({
@@ -10,7 +12,10 @@ export default async function ProfilePage({
   params: { username: string };
 }) {
   const username = params.username;
-  console.log(username);
+const { userId: currentUserId } = auth();
+  if (!currentUserId) {
+    notFound()
+  }
 
   const user = await prisma.user.findFirst({
     where: {
@@ -23,6 +28,11 @@ export default async function ProfilePage({
           following: true,
           posts: true
         }
+      },
+      following: {
+        where: {
+          followerId: currentUserId // 修正
+        }
       }
     }
   });
@@ -30,6 +40,8 @@ export default async function ProfilePage({
     notFound();
   }
 
+  const inCurrentUser = currentUserId === user.id;
+  const isFollowing = user.following.length > 0;
   return (
     <div className="flex flex-col min-h-[100dvh] mx-auto">
       <main className="flex-1">
@@ -85,6 +97,7 @@ export default async function ProfilePage({
             </div>
             <div className="sticky top-14 self-start space-y-6">
               <Button className="w-full">Follow</Button>
+              <FollowButton/>
               <div>
                 <h3 className="text-lg font-bold">Suggested</h3>
                 <div className="mt-4 space-y-4">
