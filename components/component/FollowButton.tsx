@@ -1,15 +1,17 @@
-import React from 'react'
-import { Button } from '../ui/button';
-
+import { followAction } from "@/lib/actions";
+import { Button } from "../ui/button";
 
 interface FollowButtonProps {
   isFollowing: boolean;
   isCurrentUser: boolean;
+  userId: string;
 }
 
-
-const FollowButton = ({ isCurrentUser, isFollowing }: FollowButtonProps) => {
-   
+const FollowButton = ({
+  isCurrentUser,
+  isFollowing,
+  userId
+}: FollowButtonProps) => {
   const getButtonContent = () => {
     if (isCurrentUser) {
       return "プロフィール編集";
@@ -19,7 +21,7 @@ const FollowButton = ({ isCurrentUser, isFollowing }: FollowButtonProps) => {
     }
     return "フォローする";
   };
-      
+
   const getButtonVariant = () => {
     if (isCurrentUser) {
       return "secondary";
@@ -30,12 +32,19 @@ const FollowButton = ({ isCurrentUser, isFollowing }: FollowButtonProps) => {
     return "default";
   };
 
-  return (
-    <div>
-      <Button variant={getButtonVariant()} className='w-full'>{getButtonContent()}</Button>
-    </div>
-  )
-}
+  return isCurrentUser ? (
+    <Button variant={getButtonVariant()} className="w-full">
+      {getButtonContent()}
+    </Button>
+  ) : (
+    <form action={followAction.bind(null, userId)}>
+      <div>
+        <Button variant={getButtonVariant()} className="w-full">
+          {getButtonContent()}
+        </Button>
+      </div>
+    </form>
+  );
+};
 
 export default FollowButton;
-
