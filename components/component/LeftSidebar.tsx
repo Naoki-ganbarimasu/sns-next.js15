@@ -1,20 +1,18 @@
 // components/LeftSidebar.tsx
-import Link from "next/link";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {
-  HomeIcon,
-  CompassIcon,
-  BookmarkIcon,
-  UserIcon,
-  MessageCircleIcon,
-  HeartIcon,
-  SettingsIcon,
-} from "./Icons";
-import { useUser } from "@clerk/nextjs";
-import { auth, User } from "@clerk/nextjs/server";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import fetchPosts from "@/lib/postDataFetcher";
 import prisma from "@/lib/prisma";
-import { notFound } from "next/navigation";
-import { imageConfigDefault } from "next/dist/shared/lib/image-config";
+import { auth } from "@clerk/nextjs/server";
+import Link from "next/link";
+import {
+  BookmarkIcon,
+  CompassIcon,
+  HeartIcon,
+  HomeIcon,
+  MessageCircleIcon,
+  SettingsIcon,
+  UserIcon
+} from "./Icons";
 
 const navItems = [
   { icon: HomeIcon, label: "Home", href: "/" },
@@ -22,16 +20,16 @@ const navItems = [
   { icon: BookmarkIcon, label: "Bookmarks", href: "/bookmarks" },
   { icon: UserIcon, label: "Profile", href: "/profile" },
   { icon: MessageCircleIcon, label: "Messages", href: "/messages" },
-  { icon: HeartIcon, label: "Likes", href: "/likes" },
+  { icon: HeartIcon, label: "Likes", href: "/likes" }
 ];
 
 export default async function LeftSidebar({ username }: { username: string }) {
   const { userId } = auth();
-  console.log(userId);
-    if (!userId) {
-      return;
+  if (!userId) {
+    return;
   }
-  
+
+
   const user = await prisma.user.findMany({
     where: {
       name: username
@@ -39,20 +37,12 @@ export default async function LeftSidebar({ username }: { username: string }) {
     select: {
       name: true,
       image: true,
-      _count: {
-        select: {
-          followedBy: true,
-          following: true,
-          posts: true
-        }
-      }
     }
   });
 
   if (!user) {
     return;
   }
-    // const user = await fetchPosts(userId);
   return (
     <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-md p-4 h-full flex flex-col">
       <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
@@ -65,7 +55,9 @@ export default async function LeftSidebar({ username }: { username: string }) {
         </Avatar>
         <div>
           <h3 className="text-lg font-bold">John Doe</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">@{user.username}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            @{user.username}
+          </p>
         </div>
       </div>
       <nav className="flex-grow">

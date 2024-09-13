@@ -29,7 +29,7 @@ export default async function ProfilePage({
           posts: true
         }
       },
-      following: {
+      followedBy: {
         where: {
           followerId: currentUserId // 修正
         }
@@ -41,7 +41,7 @@ export default async function ProfilePage({
   }
 
   const inCurrentUser = currentUserId === user.id;
-  const isFollowing = user.follower.length > 0;
+  const isFollowing = user.followedBy.length > 0;
   return (
     <div className="flex flex-col min-h-[100dvh] mx-auto">
       <main className="flex-1">
