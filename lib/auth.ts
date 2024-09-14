@@ -1,7 +1,21 @@
-// /lib/auth.ts (サーバーサイド専用ファイル)
-import { auth } from "@clerk/nextjs/server";
+import prisma from "./prisma";
 
-export const getProfile = () => {
-  const { userId } = auth();
-  return userId;
-};
+interface UserData {
+  id: string;
+  username: string | null;
+  image: string | null;
+}
+
+export async function getCurrentLoginUserData(
+  userId: string
+): Promise<UserData | null> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      username: true,
+      image: true
+    }
+  });
+  return user;
+}

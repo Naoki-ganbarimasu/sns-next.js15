@@ -14,7 +14,7 @@ import {
   UserIcon
 } from "./Icons";
 
-export default function LeftSidebar({ username }: { username: string }) {
+export default function LeftSidebar() {
   const { user } = useUser();
   if (!user) {
     return;

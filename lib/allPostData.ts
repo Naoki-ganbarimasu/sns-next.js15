@@ -1,7 +1,7 @@
 import prisma from "./prisma";
 
 //allPostData.ts
-export default async function fetchAllPosts(userId: string, username: string) {
+export default async function fetchAllPosts() {
     //プロフィールタイムライン
         return await prisma.post.findMany({
             include: {

@@ -3,8 +3,9 @@ import fetchPosts from "@/lib/postDataFetcher";
 import { auth } from "@clerk/nextjs/server";
 import Post from "./Post";
 
-export default async function PostList({ username }: { username: string }) {
+export default async function PostList({ username }: { username?: string }) {
   const { userId } = auth();
+  console.log(username);
 
   if (!userId) {
     return;
