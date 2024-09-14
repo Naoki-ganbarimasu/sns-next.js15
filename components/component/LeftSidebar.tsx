@@ -21,15 +21,6 @@ export default function LeftSidebar({ username }: { username: string }) {
   }
   console.log(user);
 
-  // const user = await prisma.user.findFirst({
-  //   where: {
-  //     name: username
-  //   },
-  //   });
-  // console.log(user);
-  // if (!user) {
-  //   return;
-  // }
   const navItems = [
     { icon: HomeIcon, label: "Home", href: "/" },
     { icon: FollowIcon, label: "Follow", href: "/follow" },
@@ -40,7 +31,7 @@ export default function LeftSidebar({ username }: { username: string }) {
     { icon: HeartIcon, label: "Likes", href: "/likes" }
   ];
   return (
-    <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-md p-4 h-full flex flex-col">
+    <main className="hidden md:block bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-md p-4 h-full flex flex-col">
       <Link href={`/profile/${user.username}`}>
         <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
           <Avatar className="w-12 h-12">
@@ -80,6 +71,6 @@ export default function LeftSidebar({ username }: { username: string }) {
           </div>
         </Link>
       </div>
-    </div>
+    </main>
   );
 }

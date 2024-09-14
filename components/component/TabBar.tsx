@@ -15,8 +15,8 @@ export const TabBar = () => {
   ];
 
   return (
-    <div className="flex justify-center space-x-4 border-t-4">
-      <ul className="py-3 flex">
+    <div className="sm:hidden flex justify-center space-x-4 border-t-4">
+      <ul className="py-1 flex">
         {navItems.map(({ icon: Icon, label, href }) => (
           <li key={label}>
             <Link href={href} className="block">
