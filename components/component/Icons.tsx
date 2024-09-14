@@ -179,6 +179,31 @@ export function MessageCircleIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function FollowIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* User Icon */}
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+      {/* Plus Icon */}
+      <line x1="20" y1="8" x2="20" y2="17" />
+      <line x1="15" y1="12" x2="25" y2="12" />
+    </svg>
+  );
+}
+
+
 export function SearchIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg

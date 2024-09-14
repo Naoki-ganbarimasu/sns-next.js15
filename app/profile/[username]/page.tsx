@@ -90,7 +90,6 @@ export default async function ProfilePage({
                   <div className="text-muted-foreground">Following</div>
                 </div>
               </div>
-
               <div className="mt-6 h-[500px] overflow-y-auto">
                 <PostList username={username} />
               </div>
