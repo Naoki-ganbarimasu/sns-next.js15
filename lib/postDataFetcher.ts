@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 
-export default async function fetchPosts(userId: string, username: string) {
+export default async function fetchPosts(userId: string, username?: string) {
 //プロフィールタイムライン
     if (username) {
         return await prisma.post.findMany({
